@@ -1,0 +1,48 @@
+services:
+  app:
+    user: "${USER_ID:-1000}:${GROUP_ID:-1000}"
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PAYLOAD_PORT}:3000"
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./html:/home/node/app # Mount host ./app to container.
+      - payload_node_modules:/home/node/app/node_modules #Prevent module conflicts
+      - payload_next_cache:/home/node/app/.next
+    command: >
+      sh -c "
+      if [ ! -f package.json ]; then
+        echo '🚨 Directory ./html is empty! Idle state maintained.'
+        echo 'Run docker compose exec app pnpm create payload-app@latest . in your terminal.'
+        tail -f /dev/null
+      else
+        echo '🚀 Project detected in ./html. Starting the server...'
+        pnpm install && pnpm dev
+      fi
+      "
+
+  db:
+    image: postgres:16-alpine
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  payload_node_modules:
+  payload_next_cache:
