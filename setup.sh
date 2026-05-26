@@ -72,6 +72,7 @@ if [ -d "html" ] && [ "$(ls -A html)" ]; then
             echo -e "${RED}Deleting everything in 'html' and starting fresh...${NC}"
             rm -rf html
             mkdir html
+            cp .env.sample html/.env
             SHOULD_CREATE_PAYLOAD=true
             ;;
         *)
