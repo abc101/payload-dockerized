@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
     python3 \
     make \
     g++ \
+    dumb-init \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Pinning pnpm to version 10 to prevent version conflicts
@@ -20,3 +21,4 @@ RUN mkdir -p /home/node/app/node_modules /home/node/app/.next \
 # 5. Change the runtime user to 'node' for all subsequent operations
 USER node
 EXPOSE 3000
+ENTRYPOINT ["dumb-init", "--"]

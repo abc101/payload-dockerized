@@ -83,6 +83,7 @@ if [ -d "html" ] && [ "$(ls -A html)" ]; then
 else
     echo -e "${BLUE}Creating 'html' directory and starting fresh install...${NC}"
     mkdir -p html
+    cp .env html/.env
     SHOULD_CREATE_PAYLOAD=true
 fi
 
