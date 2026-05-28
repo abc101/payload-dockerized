@@ -102,7 +102,7 @@ echo -e "${GREEN} DB Ready!${NC}"
 if [ "$SHOULD_CREATE_PAYLOAD" = true ]; then
     echo -e "${BLUE}[2/5] Scaffolding NEW Payload app...${NC}"
     CREATE_CMD="pnpm create payload-app@latest . \
-      --template $PAYLOAD_TEMPLTE \
+      --template $PAYLOAD_TEMPLETE \
       --db postgres \
       --db-connection-string $DATABASE_URL \
       --no-agent \
