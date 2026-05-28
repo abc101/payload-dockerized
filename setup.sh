@@ -136,6 +136,13 @@ docker compose logs -f app | while read line; do
     echo "$line"
     if [[ "$line" == *"Ready in"* || "$line" == *"started server on"* ]]; then
         echo -e "\n${GREEN}✔ Server is ready!${NC}"
+        
+        # Delete the Dockerfiles saved by the payload installer
+        if [ -d "html" ]; then
+            echo -e "${BLUE}Cleaning up duplicate Docker files in './html'...${NC}"
+            rm -f html/Dockerfile html/docker-compose.yml
+        fi
+        
         echo -e "${BLUE}[5/5] Setup complete!${NC}"
         echo -e "Admin Dashboard: http://localhost:3000/admin"
         echo -e "Local API: http://localhost:3000/api"
