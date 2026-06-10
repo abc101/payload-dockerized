@@ -69,7 +69,7 @@ gunzip -c "$DB_BACKUP" | docker compose exec -T db psql -U "$POSTGRES_USER" -d "
 if [ -f "$MEDIA_BACKUP" ]; then
   echo "🖼️ Restoring media files..."
   rm -rf ./html/media
-  tar -xzf "$MEDIA_BACKUP" -C ./html/media
+  tar -xzf "$MEDIA_BACKUP" -C ./html
 else
   echo "⚠️ Media backup not found. Skipping media restore:"
   echo "   $MEDIA_BACKUP"

@@ -48,14 +48,14 @@ echo "✅ DB backup created: $DB_BACKUP"
 echo "🖼️ Backing up media files..."
 
 if [ -d "./html/public" ]; then
-  tar -czf "$PUBLIC_BACKUP" -C ./html/public public
+  tar -czf "$PUBLIC_BACKUP" -C ./html public 
   echo "✅ Media backup created: $PUBLIC_BACKUP"
 else
   echo "⚠️ ./html/public not found. Skipping media backup."
 fi
 
 if [ -d "./html/media" ]; then
-  tar -czf "$MEDIA_BACKUP" -C ./html/media media
+  tar -czf "$MEDIA_BACKUP" -C ./html media
   echo "✅ Media backup created: $MEDIA_BACKUP"
 else
   echo "⚠️ ./html/media not found. Skipping media backup."
